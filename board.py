@@ -124,22 +124,29 @@ class Board:
 
         positions = vehicle.vehicle_positions()
 
+        if vehicle.orientation == 'H' and direction not in ('L', 'R'):
+            return False
+        if vehicle.orientation == 'V' and direction not in ('U', 'D'):
+            return False
+
         if direction == 'U':
             for x, y in positions:
-                if y == 0 or (not self.cell_is_empty(x, y - 1) and not self.grid[y - 1][x] == vehicle.name):
+                if y == 0 or (not self.cell_is_empty(x, y - 1) and self.grid[y - 1][x] != vehicle.name):
                     return False
         elif direction == 'D':
             for x, y in positions:
-                if y == 5 or (not self.cell_is_empty(x, y + 1) and not self.grid[y + 1][x] == vehicle.name):
+                if y == 5 or (not self.cell_is_empty(x, y + 1) and self.grid[y + 1][x] != vehicle.name):
                     return False
         elif direction == 'L':
             for x, y in positions:
-                if x == 0 or (not self.cell_is_empty(x - 1, y) and not self.grid[y][x - 1] == vehicle.name):
+                if x == 0 or (not self.cell_is_empty(x - 1, y) and self.grid[y][x - 1] != vehicle.name):
                     return False
         elif direction == 'R':
             for x, y in positions:
-                if x == 5 or (not self.cell_is_empty(x + 1, y) and not self.grid[y][x + 1] == vehicle.name):
+                if x == 5 or (not self.cell_is_empty(x + 1, y) and self.grid[y][x + 1] != vehicle.name):
                     return False
+        else:
+            return False
         
         return True
 

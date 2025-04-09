@@ -4,10 +4,9 @@ from vehicle import Vehicle
 
 board = Board()
 file_lines = []
-vehicles = {}
 has_won = False
 
-with open("./challenge_cards/challenge_40.csv", "r", encoding="utf-8") as file:
+with open("./challenge_cards/challenge_00.csv", "r", encoding="utf-8") as file:
     lines = file.readlines()
 
 for line in lines:
@@ -20,14 +19,14 @@ for i in range(1, len(file_lines)):
     vehicle_orientation = file_lines[i][3]
     vehicle_size = int(file_lines[i][4])
 
-    vehicles[vehicle_name] = Vehicle(vehicle_name, vehicle_x, vehicle_y, vehicle_orientation, vehicle_size)
-    board.add_vehicle(vehicles[vehicle_name])
+    vehicle = Vehicle(vehicle_name, vehicle_x, vehicle_y, vehicle_orientation, vehicle_size)
+    board.add_vehicle(vehicle)
 
 while not has_won:
     board.print_board()
     vehicle_choice = input("Enter the vehicle name: ")
 
-    while vehicle_choice not in vehicles:
+    while vehicle_choice not in board.vehicles:
         vehicle_choice = input(f"The vehicle {vehicle_choice} does not exist, enter the vehicle name: ")
 
     direction_choice = input("Enter the direction of movement: ")
@@ -35,11 +34,11 @@ while not has_won:
     while direction_choice not in ['U', 'D', 'L', 'R']:
         direction_choice = input(f"The direction {direction_choice} does not exist, enter the direction of movement: ")
 
-    if vehicles[vehicle_choice].name == 'X' and vehicles[vehicle_choice].x == 4:
+    if board.vehicles[vehicle_choice].name == 'X' and board.vehicles[vehicle_choice].x == 4:
         has_won = True
         print("You have won!")
-    elif board.can_move(vehicles[vehicle_choice], direction_choice):
-        vehicles[vehicle_choice].move(direction_choice)
+    elif board.can_move(board.vehicles[vehicle_choice], direction_choice):
+        board.vehicles[vehicle_choice].move(direction_choice)
         board.update_board()
     else:
         print("You can't move this vehicle in this direction.")

@@ -14,11 +14,11 @@ class Board:
         [['.', '.', '.', '.', '.', '.'], ['.', '.', '.', '.', '.', '.'], ['.', '.', '.', '.', '.', '.'], ['.', '.', '.', '.', '.', '.'], ['.', '.', '.', '.', '.', '.'], ['.', '.', '.', '.', '.', '.']]
 
         >>> board.vehicles
-        []
+        {}
         """
 
         self.grid = [['.' for _ in range(6)]for _ in range(6)]
-        self.vehicles = []
+        self.vehicles = {}
 
     def add_vehicle(self, vehicle: Vehicle) -> None:
         """Add a vehicle to the game board.
@@ -37,7 +37,7 @@ class Board:
         ('A', 'A')
         """
 
-        self.vehicles.append(vehicle)
+        self.vehicles[vehicle.name] = vehicle
         self.update_board()
 
     def cell_is_empty(self, x: int, y: int) -> bool:
@@ -65,7 +65,9 @@ class Board:
             for col in range(6):
                 self.grid[row][col] = '.'
 
-        for vehicle in self.vehicles:
+        for vehicle_name in self.vehicles:
+            vehicle = self.vehicles[vehicle_name]
+
             x = vehicle.x
             y = vehicle.y
 
